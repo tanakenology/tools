@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+
+    env:
+      LANG: ja_JP.UTF-8
+      LANGUAGE: ja_JP:ja
+      LC_ALL: ja_JP.UTF-8
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.10'
+
+      - name: Run locale-gen
+        run: |
+          sudo locale-gen ja_JP.UTF-8
+
+      - name: Install libraries
+        run: |
+          pip install -e .[dev]
+        working-directory: apps/common_io
+
+      - name: Run mypy
+        run: |
+          mypy common_io
+        working-directory: apps/common_io
+
+      - name: Run unit test
+        run: |
+          pytest -sv
+        working-directory: apps/common_io
