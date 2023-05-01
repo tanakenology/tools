@@ -1,10 +1,12 @@
-from setuptools import setup
+from setuptools import find_packages, setup
 
 setup(
     name="common_io",
     author="tanakenology",
     author_email="tanakenology@gmail.com",
-    packages=["common_io"],
+    url="https://github.com/tanakenology/tools",
+    packages=["common_io"]
+    + ["common_io." + pkg for pkg in find_packages("common_io")],
     license="tanakenology",
     install_requires=[
         "smart_open[gcs]",
