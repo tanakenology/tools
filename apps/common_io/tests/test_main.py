@@ -8,12 +8,13 @@ from common_io.domain import (
     IsRowAsList,
     ReadCsvCondition,
     RowGenerator,
+    WriteCsvCondition,
 )
 
 
 @patch("common_io.ReadCsvUsecase")
 @patch("common_io.CsvGateway")
-class TestMain:
+class TestReadCsv:
     def test_read_csv_as_json(
         self,
         CsvGateway,
@@ -76,3 +77,25 @@ class TestMain:
         )
         read_csv_usecase.execute.assert_called_once_with()
         assert actual_list == [["a", "b"], ["1", "2"], ["3", "4"]]
+
+
+@patch("common_io.WriteCsvUsecase")
+@patch("common_io.CsvGateway")
+class TestWriteCsv:
+    def test_write_csv(self, CsvGateway, WriteCsvUsecase):
+        csv_repository = CsvGateway.return_value
+        write_csv_usecase = WriteCsvUsecase.return_value
+        output = [{"a": "1", "b": "2"}, {"a": "3", "b": "4"}]
+        write_csv_condition = WriteCsvCondition(
+            output_path=CsvPath(value="gs://somebucket/output.csv"),
+            iterable=output,
+            delimiter=Delimiter(value=","),
+        )
+
+        common_io.write_csv("gs://somebucket/output.csv", output)
+
+        CsvGateway.assert_called_once_with()
+        WriteCsvUsecase.assert_called_once_with(
+            csv_repository, write_csv_condition
+        )
+        write_csv_usecase.execute.assert_called_once_with()

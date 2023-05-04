@@ -1,18 +1,17 @@
 from unittest import TestCase
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
 
+from common_io.domain import CsvPath, Delimiter, IsRowAsList, Iterable
 from common_io.gateway.csv_gateway import (
     CsvGateway,
-    CsvPath,
-    Delimiter,
-    IsRowAsList,
     ReadCsvCondition,
     RowGenerator,
+    WriteCsvCondition,
 )
 
 
+@patch("common_io.gateway.csv_gateway.CsvDriver")
 class CsvGatewayTestCase(TestCase):
-    @patch("common_io.gateway.csv_gateway.CsvDriver")
     def test_read(self, CsvDriver):
         def _():
             yield {"a": 1, "b": 2}
@@ -35,3 +34,21 @@ class CsvGatewayTestCase(TestCase):
             row_as_list=False,
         )
         self.assertEqual(list(actual.value), list(expected.value))
+
+    def test_write(self, CsvDriver):
+        output = MagicMock(spec=Iterable)
+
+        sut = CsvGateway()
+        sut.write(
+            WriteCsvCondition(
+                output_path=CsvPath(value="gs://somebucket/output.csv"),
+                iterable=output,
+                delimiter=Delimiter(value=","),
+            )
+        )
+
+        CsvDriver.write.assert_called_once_with(
+            "gs://somebucket/output.csv",
+            output,
+            delimiter=",",
+        )

@@ -1,6 +1,5 @@
-from collections.abc import Generator
+from collections.abc import Generator, Iterable
 from dataclasses import dataclass
-from typing import Sequence
 
 
 @dataclass
@@ -23,6 +22,13 @@ class ReadCsvCondition:
     input_path: CsvPath
     delimiter: Delimiter
     is_row_as_list: IsRowAsList
+
+
+@dataclass
+class WriteCsvCondition:
+    output_path: CsvPath
+    iterable: Iterable
+    delimiter: Delimiter
 
 
 @dataclass

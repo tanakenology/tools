@@ -34,16 +34,9 @@ def stop_s3_container():
     subprocess.run(["docker", "stop", "s3-mock"])
 
 
-@step("GCS のコンテナを起動する")
-def start_gcs_container():
-    data_path = (
-        Path(__file__).parent.parent
-        / "resources"
-        / "read_csv"
-        / "gcs"
-        / "data"
-    )
-    print(data_path)
+@step("GCS のコンテナを <data_dir_path> をマウントして起動する")
+def start_gcs_container(data_dir_path: str):
+    data_path = Path(__file__).parent.parent / data_dir_path
     subprocess.run(
         [
             "docker",

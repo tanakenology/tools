@@ -1,0 +1,1 @@
+fixtures = {"list": [["id", "name"], ["1", "fizz"], ["2", "buzz"]]}

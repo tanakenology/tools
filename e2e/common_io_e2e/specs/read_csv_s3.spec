@@ -2,7 +2,7 @@
 
 * S3 のコンテナを起動する
 * S3 に "e2e-bucket" バケットを作成する
-* S3 の "e2e-bucket" バケットの "e2e_folder/setup.csv" ファイルパスに CSV ファイル "setup.csv" が保存される
+* S3 の "e2e-bucket" バケットの "e2e_folder/setup.csv" ファイルパスに "resources/read_csv/s3/setup.csv" が保存される
 
 ## S3 にある CSV ファイルを Json として取得する
 

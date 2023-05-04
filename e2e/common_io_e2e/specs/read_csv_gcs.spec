@@ -1,6 +1,6 @@
 # read_csv_gcs
 
-* GCS のコンテナを起動する
+* GCS のコンテナを "resources/read_csv/gcs/data" をマウントして起動する
 
 ## GCS にある CSV ファイルを Json として取得する
 

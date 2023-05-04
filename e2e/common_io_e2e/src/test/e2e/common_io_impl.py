@@ -8,14 +8,14 @@ def install_common_io():
 
 
 @step("<uri> を json として読み込む")
-def execute_as_json(uri: str):
+def execute_read_csv_as_json(uri: str):
     import common_io
 
     data_store.scenario["response"] = list(common_io.read_csv(uri))
 
 
 @step("<uri> を list として読み込む")
-def execute_as_list(uri: str):
+def execute_read_csv_as_list(uri: str):
     import common_io
 
     data_store.scenario["response"] = list(
@@ -28,3 +28,11 @@ def assert_response(data_type: str):
     from src.test.resources.read_csv import expected
 
     assert data_store.scenario["response"] == expected.response[data_type]
+
+
+@step("<uri> に <data_type> を保存する")
+def execute_write_csv(uri: str, data_type: str):
+    import common_io
+    from src.test.resources.write_csv import actual
+
+    common_io.write_csv(uri, actual.fixtures[data_type])
