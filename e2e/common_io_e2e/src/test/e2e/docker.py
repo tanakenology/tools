@@ -18,6 +18,12 @@ def start_s3_container():
             "4566:4566",
             "-p",
             "4510-4559:4510-4559",
+            "-e",
+            "AWS_ACCESS_KEY_ID=test",
+            "-e",
+            "AWS_SECRET_ACCESS_KEY=test",
+            "-e",
+            "AWS_DEFAULT_REGION=ap-northeast-1",
             "localstack/localstack",
         ]
     )

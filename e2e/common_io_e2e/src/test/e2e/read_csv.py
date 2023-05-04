@@ -8,14 +8,14 @@ def install_common_io():
 
 
 @step("<uri> を json として読み込む")
-def execute(uri: str):
+def execute_as_json(uri: str):
     import common_io
 
     data_store.scenario["response"] = list(common_io.read_csv(uri))
 
 
 @step("<uri> を list として読み込む")
-def execute(uri: str):
+def execute_as_list(uri: str):
     import common_io
 
     data_store.scenario["response"] = list(
