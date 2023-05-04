@@ -50,5 +50,6 @@ jobs:
         env:
           PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION: python
         run: |
+          pip install -r requirements.txt
           gauge run specs
         working-directory: e2e/common_io_e2e
