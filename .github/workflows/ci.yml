@@ -47,6 +47,8 @@ jobs:
         working-directory: apps/common_io
 
       - name: Run e2e test
+        env:
+          PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION: python
         run: |
           gauge run specs
         working-directory: e2e/common_io_e2e
