@@ -1,11 +1,8 @@
 from unittest import TestCase
 from unittest.mock import MagicMock
 
-from common_io.usecase.read_csv import (
-    CsvPort,
-    ReadCsvCondition,
-    ReadCsvUsecase,
-)
+from common_io.usecase.read_csv import (CsvPort, ReadCsvCondition,
+                                        ReadCsvUsecase)
 
 
 class ReadCsvUsecaseTestCase(TestCase):

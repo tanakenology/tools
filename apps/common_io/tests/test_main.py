@@ -2,14 +2,9 @@ from collections.abc import Generator
 from unittest.mock import patch
 
 import common_io
-from common_io.domain import (
-    CsvPath,
-    Delimiter,
-    IsRowAsList,
-    ReadCsvCondition,
-    RowGenerator,
-    WriteCsvCondition,
-)
+from common_io.domain import (CsvPath, Delimiter, IsRowAsList, JsonlinesPath,
+                              ReadCsvCondition, ReadJsonlinesCondition,
+                              RowGenerator, WriteCsvCondition)
 
 
 @patch("common_io.ReadCsvUsecase")
@@ -99,3 +94,31 @@ class TestWriteCsv:
             csv_repository, write_csv_condition
         )
         write_csv_usecase.execute.assert_called_once_with()
+
+
+@patch("common_io.ReadJsonlinesUsecase")
+@patch("common_io.JsonlinesGateway")
+class TestReadJsonlines:
+    def test_read_jsonlines(self, JsonlinesGateway, ReadJsonlinesUsecase):
+        jsonlines_repository = JsonlinesGateway.return_value
+        read_jsonlines_usecase = ReadJsonlinesUsecase.return_value
+        read_jsonlines_condition = ReadJsonlinesCondition(
+            input_path=JsonlinesPath(value="gs://somebucket/input.jsonl")
+        )
+
+        def _():
+            yield {"a": "1", "b": "2"}
+            yield {"a": "3", "b": "4"}
+
+        read_jsonlines_usecase.execute.return_value = RowGenerator(value=_())
+
+        actual = common_io.read_jsonlines("gs://somebucket/input.jsonl")
+
+        assert isinstance(actual, Generator)
+        actual_list = list(actual)
+        JsonlinesGateway.assert_called_once_with()
+        ReadJsonlinesUsecase.assert_called_once_with(
+            jsonlines_repository, read_jsonlines_condition
+        )
+        read_jsonlines_usecase.execute.assert_called_once_with()
+        assert actual_list == [{"a": "1", "b": "2"}, {"a": "3", "b": "4"}]

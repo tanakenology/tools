@@ -11,6 +11,7 @@ setup(
     install_requires=[
         "smart_open[gcs]",
         "smart_open[s3]",
+        "jsonlines",
     ],
     extras_require={
         "dev": [

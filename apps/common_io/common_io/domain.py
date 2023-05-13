@@ -8,6 +8,11 @@ class CsvPath:
 
 
 @dataclass
+class JsonlinesPath:
+    value: str
+
+
+@dataclass
 class Delimiter:
     value: str
 
@@ -22,6 +27,11 @@ class ReadCsvCondition:
     input_path: CsvPath
     delimiter: Delimiter
     is_row_as_list: IsRowAsList
+
+
+@dataclass
+class ReadJsonlinesCondition:
+    input_path: JsonlinesPath
 
 
 @dataclass

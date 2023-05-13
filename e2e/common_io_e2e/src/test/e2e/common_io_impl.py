@@ -23,6 +23,13 @@ def execute_read_csv_as_list(uri: str):
     )
 
 
+@step("jsonlines ファイル <uri> を読み込む")
+def execute_read_jsonlines(uri: str):
+    import common_io
+
+    data_store.scenario["response"] = list(common_io.read_jsonlines(uri))
+
+
 @step("返り値が <data_type> と一致する")
 def assert_response(data_type: str):
     from src.test.resources.read_csv import expected

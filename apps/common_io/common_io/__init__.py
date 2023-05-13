@@ -1,14 +1,12 @@
 from collections.abc import Generator, Iterable
 
-from common_io.domain import (
-    CsvPath,
-    Delimiter,
-    IsRowAsList,
-    ReadCsvCondition,
-    WriteCsvCondition,
-)
+from common_io.domain import (CsvPath, Delimiter, IsRowAsList, JsonlinesPath,
+                              ReadCsvCondition, ReadJsonlinesCondition,
+                              WriteCsvCondition)
 from common_io.gateway.csv_gateway import CsvGateway
+from common_io.gateway.jsonlines_gateway import JsonlinesGateway
 from common_io.usecase.read_csv import ReadCsvUsecase
+from common_io.usecase.read_jsonlines import ReadJsonlinesUsecase
 from common_io.usecase.write_csv import WriteCsvUsecase
 
 
@@ -42,3 +40,15 @@ def write_csv(
         ),
     )
     write_csv_usecase.execute()
+
+
+def read_jsonlines(
+    input_path: str
+) -> Generator[dict[str, str] | list[str], None, None]:
+    read_jsonlines_usecase = ReadJsonlinesUsecase(
+        JsonlinesGateway(),
+        ReadJsonlinesCondition(
+            input_path=JsonlinesPath(value=input_path)
+        )
+    )
+    return read_jsonlines_usecase.execute().value
