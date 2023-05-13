@@ -49,7 +49,7 @@ def start_gcs_container(data_dir_path: str):
             "4443:4443",
             "-v",
             f"{str(data_path)}:/data",
-            "fsouza/fake-gcs-server",
+            "fsouza/fake-gcs-server:1.44",
             "-scheme",
             "http",
         ]

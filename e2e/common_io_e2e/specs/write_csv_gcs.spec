@@ -1,4 +1,4 @@
-# write_csv_s3
+# write_csv_gcs
 
 * GCS のコンテナを "resources/write_csv/gcs/data" をマウントして起動する
 
