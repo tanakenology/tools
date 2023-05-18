@@ -42,5 +42,11 @@ class WriteCsvCondition:
 
 
 @dataclass
+class WriteJsonlinesCondition:
+    output_path: JsonlinesPath
+    iterable: Iterable
+
+
+@dataclass
 class RowGenerator:
     value: Generator[dict[str, str] | list[str], None, None]

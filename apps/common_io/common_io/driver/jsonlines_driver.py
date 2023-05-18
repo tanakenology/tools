@@ -1,5 +1,5 @@
 import os
-from collections.abc import Generator
+from collections.abc import Generator, Iterable
 
 import boto3  # type: ignore
 import jsonlines
@@ -14,6 +14,13 @@ class JsonlinesDriver:
         ) as fin:
             for d in jsonlines.Reader(fin):
                 yield d
+
+    @classmethod
+    def write(cls, output_path: str, iterable: Iterable):
+        with smart_open.open(
+            output_path, "w", transport_params=cls.gen_tparams(output_path)
+        ) as fout:
+            jsonlines.Writer(fout).write_all(iterable)
 
     @classmethod
     def gen_tparams(cls, path: str):

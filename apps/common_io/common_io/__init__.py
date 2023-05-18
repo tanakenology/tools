@@ -1,13 +1,21 @@
 from collections.abc import Generator, Iterable
 
-from common_io.domain import (CsvPath, Delimiter, IsRowAsList, JsonlinesPath,
-                              ReadCsvCondition, ReadJsonlinesCondition,
-                              WriteCsvCondition)
+from common_io.domain import (
+    CsvPath,
+    Delimiter,
+    IsRowAsList,
+    JsonlinesPath,
+    ReadCsvCondition,
+    ReadJsonlinesCondition,
+    WriteCsvCondition,
+    WriteJsonlinesCondition,
+)
 from common_io.gateway.csv_gateway import CsvGateway
 from common_io.gateway.jsonlines_gateway import JsonlinesGateway
 from common_io.usecase.read_csv import ReadCsvUsecase
 from common_io.usecase.read_jsonlines import ReadJsonlinesUsecase
 from common_io.usecase.write_csv import WriteCsvUsecase
+from common_io.usecase.write_jsonlines import WriteJsonlinesUsecase
 
 
 def read_csv(
@@ -43,12 +51,24 @@ def write_csv(
 
 
 def read_jsonlines(
-    input_path: str
+    input_path: str,
 ) -> Generator[dict[str, str] | list[str], None, None]:
     read_jsonlines_usecase = ReadJsonlinesUsecase(
         JsonlinesGateway(),
-        ReadJsonlinesCondition(
-            input_path=JsonlinesPath(value=input_path)
-        )
+        ReadJsonlinesCondition(input_path=JsonlinesPath(value=input_path)),
     )
     return read_jsonlines_usecase.execute().value
+
+
+def write_jsonlines(
+    output_path: str,
+    iterable: Iterable,
+) -> None:
+    write_jsonlines_usecase = WriteJsonlinesUsecase(
+        JsonlinesGateway(),
+        WriteJsonlinesCondition(
+            output_path=JsonlinesPath(value=output_path),
+            iterable=iterable,
+        ),
+    )
+    write_jsonlines_usecase.execute()

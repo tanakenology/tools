@@ -43,3 +43,11 @@ def execute_write_csv(uri: str, data_type: str):
     from src.test.resources.write_csv import actual
 
     common_io.write_csv(uri, actual.fixtures[data_type])
+
+
+@step("jsonlines ファイルパス <uri> に <data_type> を保存する")
+def execute_write_jsonlines(uri: str, data_type: str):
+    import common_io
+    from src.test.resources.write_jsonlines import actual
+
+    common_io.write_jsonlines(uri, actual.fixtures[data_type])
