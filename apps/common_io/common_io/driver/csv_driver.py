@@ -29,7 +29,7 @@ class CsvDriver:
 
     @classmethod
     def gen_tparams(cls, path: str):
-        if path.startswith("s3://"):
+        if str(path).startswith("s3://"):
             return {
                 "client": boto3.client(
                     "s3",
