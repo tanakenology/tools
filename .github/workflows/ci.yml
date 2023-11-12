@@ -49,5 +49,5 @@ jobs:
       - name: Run e2e test
         run: |
           pip install -r requirements.txt
-          gauge run specs
+          gauge run --tags "\!unimplemented" specs
         working-directory: e2e/common_io_e2e
